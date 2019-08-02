@@ -1,0 +1,108 @@
+﻿@model NovaTombola.Models.Kombinacija
+@{
+    ViewData["Title"] = "Home Page";
+}
+    <form id="form" asp-action="Index2">
+        <div class=" row mt-5 mb-5 m-5">
+            <div class="col-md-4 offset-4">
+                <h4 class="text-center text-monospace text-danger">
+                    Igrajte tombolu!
+                </h4>
+                <h6 class="text-center text-monospace text-danger">
+                    Unesite svoje ime kao i brojeve koji su u opsegu od 1 do 36.
+                </h6>
+                <div class="form-group">
+                    <a class="text-center form-control text-monospace mt-3" asp-action="DobitnaKombinacija">Vidi pobednike</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-1 offset-3">
+                <input id="id1" type="text" data-val="true" data-val-required="Unesite prvi broj!" data-val-range="Od 1 do 36" + data-val-range-min="1" + data-val-range-max="36" data-val-number="Potrebno je uneti broj." asp-for="PrviBroj" class="dot text-white text-center" />
+                @*<span id="p1" class="text-monospace text-danger text-center" asp-validation-for="PrviBroj"></span>*@
+            </div>
+            <div class="col-md-1">
+                <input id="id2" type="text" data-val="true" data-val-required="Unesite drugi broj!" data-val-range="Od 1 do 36" + data-val-range-min="1" + data-val-range-max="36" data-val-number="Potrebno je uneti broj." asp-for="DrugiBroj" class="dot text-white text-center" />
+                @*<span id="p2" class="text-monospace text-danger" asp-validation-for="DrugiBroj"></span>*@
+            </div>
+            <div class="col-md-1">
+                <input id="id3" type="text" data-val="true" data-val-required="Unesite treci broj!" data-val-range="Od 1 do 36" + data-val-range-min="1" + data-val-range-max="36" data-val-number="Potrebno je uneti broj." asp-for="TreciBroj" class="dot text-white text-center" />
+                @*<span id="p3" class="text-monospace text-danger" asp-validation-for="TreciBroj"></span>*@
+            </div>
+            <div class="col-md-1">
+                <input id="id4" type="text" data-val="true" data-val-required="Unesite cetvrti broj!" data-val-range="Od 1 do 36" + data-val-range-min="1" + data-val-range-max="36" data-val-number="Potrebno je uneti broj." asp-for="CetvrtiBroj" class="dot text-white text-center" />
+                @*<span id="p4" class="text-monospace text-danger" asp-validation-for="CetvrtiBroj"></span>*@
+            </div>
+            <div class="col-md-1">
+                <input id="id5" type="text" data-val="true" data-val-required="Unesite peti broj!" data-val-range="Od 1 do 36" + data-val-range-min="1" + data-val-range-max="36" data-val-number="Potrebno je uneti broj." asp-for="PetiBroj" class="dot text-white text-center" />
+                @*<span id="p5" class="text-monospace text-danger" asp-validation-for="PetiBroj"></span>*@
+            </div>
+            <div class="col-md-1">
+                <input id="id6" type="text" data-val="true" data-val-required="Unesite šesti broj!" data-val-range="Od 1 do 36" + data-val-range-min="1" + data-val-range-max="36" data-val-number="Potrebno je uneti broj." asp-for="SestiBroj" class="dot text-white text-center" />
+                @*<span id="p6" class="text-monospace text-danger" asp-validation-for="SestiBroj"></span>*@
+            </div>
+
+        </div>
+
+
+        <div class="row mt-4">
+            <div class="col-md-2 offset-5">
+                <label class="text-center text-monospace" for="ime">Unesite vase ime</label>
+                <input type="text" asp-for="IgracId" data-val="true" data-val-required="Unesite ime." id="ime" name="Ime" class="form-control bg-white text-center" />
+                <span class="text-monospace text-danger" asp-validation-for="IgracId"></span>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-2 offset-5">
+                
+                <button type="submit" class="btn btn-outline-danger form-control text-monospace">Unesi</button>
+                <h7 class="text-center text-monospace text-danger">
+                    @ViewBag.Greska
+                </h7>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-4 offset-5" id="divIgraci">
+                <div class="form-group">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+@*<div class="row mt-5">
+    <div class="col-md-4 offset-4" id="divIgraci">
+        <div class="form-group">
+            <a class="text-center form-control text-monospace" asp-action="Index2">Vidi sve kombinacije</a>
+        </div>
+    </div>
+</div>*@
+
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script>
+        function Unesi() {
+            var podaci = $("#form1").serialize();
+
+            var zahtev = $.ajax({
+                type: "GET",
+                url: "/Home/_Unesi",
+                data: podaci,
+                dataType: "html"
+            });
+
+            zahtev.done(function (htmlString) {
+                $("#divIgraci").html(htmlString);
+            });
+            zahtev.fail(function (gr) {
+                $("#divIgraci").html(gr.statusText);
+            });
+        }
+    </script>
+}

@@ -1,0 +1,93 @@
+﻿@model IEnumerable<NovaTombola.Models.Kombinacija>
+@{
+    ViewData["Title"] = "Index2";
+}
+
+@if (ViewBag.Greska == "Greska!")
+{
+    <div class="row mt-5">
+        <div class="col-md-4 offset-4">
+            <p class="text-danger text-monospace text-center">@ViewBag.Greska</p>
+        </div>
+    </div>
+}
+else
+{
+
+    <form id="form1">
+        <div class="row mt-5">
+            <div class="col-md-4 offset-2">
+                <table class="table table-striped text-monospace">
+
+                    <thead>
+                        <tr>
+                            <th>Igrači</th>
+                            <th>Kombinacije</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Kombinacija kombinacija in Model)
+                        {
+                            <tr>
+                                <td>@kombinacija.Igrac.Ime</td>
+                                <td>
+                                    @kombinacija.PrviBroj @kombinacija.DrugiBroj @kombinacija.TreciBroj @kombinacija.CetvrtiBroj @kombinacija.PetiBroj @kombinacija.SestiBroj
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <a class="text-center form-control text-monospace" asp-action="Index">Unesi kombinaciju</a>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" id="button111" asp-action="IzvlacenjeBrojeva" class="form-control btn btn-light btn-outline-success text-monospace">Izvlačenje</button>
+                </div>
+
+                <div class="form-group">
+                    <input type="hidden" name="kombinacije" value="@ViewBag.Kombinacija" />
+                    <p class="text-center text-monospace text-danger mt-3">@ViewBag.gkombinacija</p>
+                    <input id="dokomb" type="hidden" name="kombinacije" value="@ViewBag.DobitnaKombinacija" />
+                </div>
+            </div>
+        </div>
+    </form>
+}
+
+@section Scripts{
+    <script src="~/js/izvlacenje.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(function () {
+            Pronadji1();
+            var dokomb = $("#dokomb").val();
+            if (dokomb == "") {
+                $("#button111").click();
+            }
+        });
+        function Pronadji1() {
+            var podaci = $("#form1").serialize();
+
+            var zahtev = $.ajax({
+                type: "GET",
+                url: "/Home/_Izvlacenje",
+                data: podaci,
+                dataType: "html"
+
+            });
+
+            zahtev.done(function (htmlString) {
+                $("#div1").html(htmlString);
+            });
+            zahtev.fail(function (gr) {
+                $("#div1").html(gr.statusText);
+            });
+        }
+
+    </script>
+}

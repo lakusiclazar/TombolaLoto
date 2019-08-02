@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewData["Title"] = "_Unesi";
+}
+
+@if (ViewBag.Greska == "")
+{
+    <table class="table table-striped">
+        
+            <thead>
+                <tr>
+                    <th>Igrači</th>
+                    <th>Kombinacije</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Kombinacija kombinacija in Model)
+                {
+                    <tr>
+                        <td>@kombinacija.Igrac.Ime</td>
+                        <td>
+                            @kombinacija.PrviBroj @kombinacija.DrugiBroj @kombinacija.TreciBroj @kombinacija.CetvrtiBroj @kombinacija.PetiBroj @kombinacija.SestiBroj
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        
+    </table>
+}
+else
+{
+    <p class="text-danger text-center">@ViewBag.Greska</p>
+}

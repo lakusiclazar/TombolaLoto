@@ -1,0 +1,68 @@
+﻿@model IEnumerable<NovaTombola.Models.Kombinacija>
+@{
+    ViewData["Title"] = "Izvlacenje";
+}
+
+<div class="row mt-5">
+    <div class="col-md-6">
+        <ul id="player-list"></ul>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        usersArray.forEach(player => {
+            const container = document.createElement('li');
+            container.classList.add('player-item');
+            const nameSpan = document.createElement('span');
+            nameSpan.textContent = player.name;
+            const combinationSpan = document.createElement('span');
+            combinationSpan.textContent = player.combination.toString();
+            container.appendChild(nameSpan);
+            container.appendChild(combinationSpan);
+            list.appendChild(container);
+        });
+
+        function startLotto() {
+            while (lotteryNumbers.length < 7) {
+                const newBr = chooseNumber();
+                if (!lotteryNumbers.includes(newBr)) {
+                    lotteryNumbers.push(newBr);
+                }
+            }
+            usersArray.push({
+                name: 'BOT',
+                combination: lotteryNumbers
+            })
+
+            var winnersList = usersArray;
+            for (let i = 0; i < lotteryNumbers.length; i++) {
+                if (!winnersList.length) {
+                    break;
+                }
+                winnersList = winnersList.filter(pl => pl.combination.includes(lotteryNumbers[i]));
+            }
+            if (!winnersList.length) {
+                document.getElementById('lotto-result').textContent = lotteryNumbers.toString();
+                lotteryNumbers = [];
+                setTimeout(() => {
+                    startLotto();
+                }, 0);
+            } else {
+                document.getElementById('winnerName').textContent = winnersList.map(item => item.name).toString();
+                document.getElementById('winnerNumbers').textContent = lotteryNumbers.toString();
+                document.getElementById('lotto-game').classList.add('invisible');
+                document.getElementById('lotto-finish').classList.add('visible');
+
+                localStorage.setItem('winners', JSON.stringify(winnersList));
+                localStorage.removeItem('combinationList');
+                winnersList = [];
+                usersArray = [];
+            }
+        }
+
+        function chooseNumber() {
+            return Math.floor(Math.random() * 36) + 1;
+        }
+    </script>
+}

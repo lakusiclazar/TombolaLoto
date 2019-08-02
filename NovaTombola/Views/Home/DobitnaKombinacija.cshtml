@@ -1,0 +1,61 @@
+﻿@model IEnumerable<NovaTombola.Models.Pobednik>
+
+@{
+    ViewData["Title"] = "DobitnaKombinacija";
+}
+
+@if (@ViewBag.PobednickaKombinacija != null)
+{
+
+    <div class="row mt-5">
+        <div class="col-md-4 offset-4">
+            <h3 class="text-center text-monospace text-danger">
+                Izvucena dobitnicka kombinacija!
+            </h3>
+            <h2 class="text-center text-monospace text-danger">
+                @ViewBag.PobednickaKombinacija
+            </h2>
+            <h3 class="text-center text-monospace text-danger">
+                Srecni dobitnik je @ViewBag.PobednikIme
+            </h3>
+        </div>
+    </div>
+}
+
+<div class="row mt-5">
+    <div class="col-md-4 offset-4">
+        <table class="table text-monospace table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Pobednici
+                    </th>
+                    <th>
+                        Kombinacije
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Pobednik pob in Model)
+                {
+                    <tr>
+                        <td>
+                            @pob.PobednickiIgrac.Ime
+                        </td>
+                        <td>
+                            @pob.PobednickaKombinacija.PrviBroj @pob.PobednickaKombinacija.DrugiBroj @pob.PobednickaKombinacija.TreciBroj @pob.PobednickaKombinacija.CetvrtiBroj @pob.PobednickaKombinacija.PetiBroj @pob.PobednickaKombinacija.SestiBroj
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4 offset-4 mt-3">
+        <div class="form-group">
+            <a class="text-center form-control text-monospace" asp-action="Index">Unesi kombinaciju</a>
+        </div>
+    </div>
+</div>
