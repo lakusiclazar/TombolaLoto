@@ -102,9 +102,7 @@ namespace NovaTombola.Controllers
                     postojaniIgrac = i;
                 }
             }
-
             
-
             if (postojaniIgrac.Ime == null)
             {
                 postojaniIgrac.Ime = Ime;
